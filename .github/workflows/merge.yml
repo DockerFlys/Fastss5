@@ -1,0 +1,20 @@
+name: Merge upstream branches
+on:
+  schedule:
+    - cron:  '1 1 * * *'
+  workflow_dispatch:
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge upstream
+        run: |
+          git config --global user.name 'searxng'
+          git config --global user.email 'searxng@github.com'
+          git config --global credential.helper store
+          git clone https://github.com/DockerFlys/Fastss5.git tmp
+          cd tmp
+          git remote add upstream https://github.com/searxng/searxng.git
+          git fetch upstream
+          git merge upstream/master
+          git push origin master
